@@ -11,3 +11,31 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.page {
+  padding: 0 10px;
+}
+.block {
+  display: block;
+  padding: 10px 5px;
+  margin-bottom: 10px;
+  background-color: #fff;
+}
+.block div, .block ul {
+  padding-top: 4px;
+}
+.block .pic {
+  width: 40px;
+}
+.s-block {
+  padding: 5px 0;
+}
+.btn {
+  margin: 10px;
+}
+input {
+  border: 1px solid #666;
+  height: 20px;
+  line-height: 20px;
+  padding: 0 3px;
+}
