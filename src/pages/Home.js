@@ -10,14 +10,14 @@ export default class Home extends Component {
     goJsxPage = (path) => {
         this.props.history.push(path)
     }
-
     render() {
         return (
             <div>
                 <h1>Home</h1>
                 <WingBlank>
-                    <Button type="primary" inline style={{marginRight: '4px'}} onClick={() => this.goJsxPage('/JSXPage')}>JSXPage</Button>
-                    <Button type="primary" inline onClick={() => this.goJsxPage('/classComponentPage')}>ClassComponentPage</Button>
+                    <Button className="home-btn" type="primary" inline onClick={() => this.goJsxPage('/JSXPage')}>JSXPage</Button>
+                    <Button className="home-btn" type="primary" inline onClick={() => this.goJsxPage('/classComponentPage')}>ClassComponentPage</Button>
+                    <Button className="home-btn" type="primary" inline onClick={() => this.goJsxPage('/lifeCyclePage')}>LifeCyclePage</Button>
                 </WingBlank>
             </div>
         )

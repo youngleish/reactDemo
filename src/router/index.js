@@ -20,5 +20,10 @@ export default [
         name: 'classComponentPage',
         path: '/classComponentPage',
         component: ACL(() => import('../pages/ClassComponentPage'))
+    },
+    {
+        name: 'lifeCyclePage',
+        path: '/lifeCyclePage',
+        component: ACL(() => import('../pages/LifeCyclePage'))
     }
 ]

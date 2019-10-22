@@ -33,6 +33,9 @@ code {
 .btn {
   margin: 10px;
 }
+.home-btn {
+  margin: 4px;
+}
 input {
   border: 1px solid #666;
   height: 20px;
