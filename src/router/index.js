@@ -1,4 +1,4 @@
-import ACL from '../util/async-load'
+import ACL from '../util/AsyncLoad'
 
 export default [
     {
@@ -25,5 +25,10 @@ export default [
         name: 'lifeCyclePage',
         path: '/lifeCyclePage',
         component: ACL(() => import('../pages/LifeCyclePage'))
+    },
+    {
+        name: 'contextPage',
+        path: '/contextPage',
+        component: ACL(() => import('../pages/ContextPage'))
     }
 ]
