@@ -30,5 +30,10 @@ export default [
         name: 'contextPage',
         path: '/contextPage',
         component: ACL(() => import('../pages/ContextPage'))
+    },
+    {
+        name: 'compositionPage',
+        path: '/compositionPage',
+        component: ACL(() => import('../pages/CompositionPage'))
     }
 ]

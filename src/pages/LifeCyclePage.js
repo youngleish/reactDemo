@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {Button} from 'antd-mobile'
+import Layout from '../components/Layout';
 
 export default class LifeCyclePage extends Component {
     constructor(props) {
@@ -51,15 +52,16 @@ export default class LifeCyclePage extends Component {
         console.log('render', counter);
         
         return (
-            <div>
-                <h1>LifeCyclePage</h1>
-                <section className="block">
-                    <h3>改变counter值测试各个生命周期阶段</h3>
-                    <div>counter: {counter}(查看console)</div>
-                    <Button className="btn" inline size="small" onClick={this.addCounter}>增加counter值</Button>
-                    {!!(counter %2) && <Foo/>}
-                </section>
-            </div>
+            <Layout pageTitle='LifeCyclePage' {...this.props}>
+                <div className='page'>
+                    <section className="block">
+                        <h3>改变counter值测试各个生命周期阶段</h3>
+                        <div>counter: {counter}(查看console)</div>
+                        <Button className="btn" inline size="small" onClick={this.addCounter}>增加counter值</Button>
+                        {!!(counter %2) && <Foo/>}
+                    </section>
+                </div>
+            </Layout>
         )
     }
 }
