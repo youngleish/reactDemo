@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Button } from 'antd-mobile'
 import LiftingStateUp from '../components/LiftingStateUp'
 import Layout from '../components/Layout'
+import BlockPage from '../components/BlockPage'
 
 export default class ClassComponentPage extends Component {
     constructor(props) {
@@ -116,47 +117,40 @@ export default class ClassComponentPage extends Component {
         const { date, testCombineState, counter, counter1, counter2, counter3, num, num2 } = this.state
         return (
             <Layout pageTitle='ClassComponentPage' {...this.props}>
-                <div className='page'>
-                    <section className="block">
-                        <h3>数组表达式应用</h3>
-                        <ul>{arr}</ul>
-                    </section>
-                    <section className="block">
-                        <h3>组件state状态管理</h3>
-                        <div>{date.toLocaleTimeString()}</div>
-                    </section>
-                    <section className="block">
-                        <h3>setState批量执行</h3>
-                        <div>在dom挂载的生命周期中执行了3次setState更新counter的方法得到了1次setState值,并且对相同属性的设置只保留最后一次更新: ---counter:{counter}, testCombineState: {testCombineState}</div>
-                    </section>
-                    <section className="block">
-                        <h3>setState同步和异步更新</h3>
-                        <div className='s-block'>
-                            <div>异步: {counter}</div>
-                            <Button className="btn" inline size="small" onClick={this.setCounter}>异步改变counter值</Button>
-                        </div>
-                        <div className="s-block">
-                            <div>同步方法1-setState方法接受函数: {counter1}</div>
-                            <Button className="btn" inline size="small" onClick={this.setCounter1}>同步改变counter值方法1</Button>
-                        </div>
-                        <div className="s-block">
-                            <div>同步方法2-定时器: {counter2}</div>
-                            <Button className="btn" inline size="small" onClick={this.setCounter2}>同步改变counter值方法2</Button>
-                        </div>
-                        <div className="s-block">
-                            <div>同步方法3-原生方法绑定事件: {counter3}</div>
-                            <Button className="btn" id="btn3" inline size="small" onClick={this.setCounter3}>同步改变counter值方法3</Button>
-                        </div>
-                    </section>
-                    <section className="block">
-                        <h3>组件状态提升</h3>
-                        <div>
-                            <div>num之和{num + num2}</div>
-                            <LiftingStateUp num={num} addNum={this.addNum} setNum={(event) => { this.setNum(event) }} />
-                            <LiftingStateUp num={num2} addNum={this.addNum2} setNum={(event) => { this.setNum2(event) }} />
-                        </div>
-                    </section>
-                </div>
+                <BlockPage pageSubTitle='数组表达式应用'>
+                    <ul>{arr}</ul>
+                </BlockPage>
+                <BlockPage pageSubTitle='组件state状态管理'>
+                    <div>{date.toLocaleTimeString()}</div>
+                </BlockPage>
+                <BlockPage pageSubTitle='setState批量执行'>
+                    <div>在dom挂载的生命周期中执行了3次setState更新counter的方法得到了1次setState值,并且对相同属性的设置只保留最后一次更新: ---counter:{counter}, testCombineState: {testCombineState}</div>
+                </BlockPage>
+                <BlockPage pageSubTitle='setState同步和异步更新'>
+                    <div className='s-block'>
+                        <div>异步: {counter}</div>
+                        <Button className="btn" inline size="small" onClick={this.setCounter}>异步改变counter值</Button>
+                    </div>
+                    <div className="s-block">
+                        <div>同步方法1-setState方法接受函数: {counter1}</div>
+                        <Button className="btn" inline size="small" onClick={this.setCounter1}>同步改变counter值方法1</Button>
+                    </div>
+                    <div className="s-block">
+                        <div>同步方法2-定时器: {counter2}</div>
+                        <Button className="btn" inline size="small" onClick={this.setCounter2}>同步改变counter值方法2</Button>
+                    </div>
+                    <div className="s-block">
+                        <div>同步方法3-原生方法绑定事件: {counter3}</div>
+                        <Button className="btn" id="btn3" inline size="small" onClick={this.setCounter3}>同步改变counter值方法3</Button>
+                    </div>
+                </BlockPage>
+                <BlockPage pageSubTitle='组件状态提升'>
+                    <div>
+                        <div>num之和{num + num2}</div>
+                        <LiftingStateUp num={num} addNum={this.addNum} setNum={(event) => { this.setNum(event) }} />
+                        <LiftingStateUp num={num2} addNum={this.addNum2} setNum={(event) => { this.setNum2(event) }} />
+                    </div>
+                </BlockPage>
             </Layout>
         )
     }

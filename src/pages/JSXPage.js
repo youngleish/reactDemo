@@ -1,5 +1,6 @@
 import React from 'react'
 import Layout from '../components/Layout'
+import BlockPage from '../components/BlockPage'
 
 export default function JSXPage(props) {
     const str = '我是表达式string'
@@ -31,44 +32,35 @@ export default function JSXPage(props) {
     return (
         // <div className="page">
         <Layout pageTitle='JSXPage' {...props}>
-            <div className='page'>
-                <section className='block'>
-                    <h3>表达式{}的使用</h3>
-                    <div>{str}</div>
-                </section>
-                <section className='block'>
-                    <h3>函数表达式的使用</h3>
-                    <div>{formatName()}</div>
-                </section>
-                <section className="block">
-                    <h3>jsx是js的对象也是合法的表达式</h3>
-                    <div>{greet}</div>
-                </section>
-                <section className="block">
-                    <h3>条件语句的实现</h3>
-                    <div>{show && ifTem}</div>
-                    <div>{show ? ifTem : '我是替代语句'}</div>
-                    <div>{ifContent}</div>
-                </section>
-                <section className="block">
-                    <h3>数组的使用</h3>
-                    <ul>
-                        {arr.map((item, index) => {
-                            return <li key={'item' + index}>{item}</li>
-                        })}
-                    </ul>
-                    <ul>
-                        {obj.map((item, index) => {
-                            return <li key={'item2' + index}>{item.name + '-' + item.age}</li>
-                        })}
-                    </ul>
-                </section>
-                <section className="block">
-                    <h3>属性的使用</h3>
-                    <img className="pic" src={require('../logo.svg')} alt=""/>
-                </section>
-            </div>
+            <BlockPage pageSubTitle='表达式{}的使用'>
+                <div>{str}</div>
+            </BlockPage>
+            <BlockPage pageSubTitle='函数表达式的使用'>
+                <div>{formatName()}</div>
+            </BlockPage>
+            <BlockPage pageSubTitle='jsx是js的对象也是合法的表达式'>
+                <div>{greet}</div>
+            </BlockPage>
+            <BlockPage pageSubTitle='条件语句的实现'>
+                <div>{show && ifTem}</div>
+                <div>{show ? ifTem : '我是替代语句'}</div>
+                <div>{ifContent}</div>
+            </BlockPage>
+            <BlockPage pageSubTitle='数组的使用'>
+                <ul>
+                    {arr.map((item, index) => {
+                        return <li key={'item' + index}>{item}</li>
+                    })}
+                </ul>
+                <ul>
+                    {obj.map((item, index) => {
+                        return <li key={'item2' + index}>{item.name + '-' + item.age}</li>
+                    })}
+                </ul>
+            </BlockPage>
+            <BlockPage pageSubTitle='属性的使用'>
+                <img className="pic" src={require('../logo.svg')} alt=""/>
+            </BlockPage>
         </Layout>
-        // </div>
     )
 }

@@ -19,15 +19,13 @@ export default class Home extends Component {
         console.log('Home.prop', this.props);
         return (
             <Layout title='练习首页' showHomeIcon={this.state.showHomeIcon} {...this.props}>
-                <div className='page homePage'>
-                    <WingBlank>
-                        {
-                            this.state.routes.map((item, index) => {
-                                return  <Button key={'child' + index} className="home-btn" type="primary" inline onClick={() => this.goJsxPage(item.path)}>{item.name}</Button> 
-                            }) 
-                        }
-                    </WingBlank>
-                </div>
+                <WingBlank>
+                    {
+                        this.state.routes.map((item, index) => {
+                            return  <Button key={'child' + index} className="home-btn" type="primary" inline onClick={() => this.goJsxPage(item.path)}>{item.name}</Button> 
+                        }) 
+                    }
+                </WingBlank>
             </Layout>
         )
     }

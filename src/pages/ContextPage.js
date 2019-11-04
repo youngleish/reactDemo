@@ -7,7 +7,7 @@ import ThemedButtonClass2 from '../components/ThemedButtonClass2'
 import ThemedButtonFun from '../components/ThemedButtonFun'
 import ThemedButtonFun2 from '../components/ThemedButtonFun2'
 import Layout from '../components/Layout'
-
+import BlockPage from '../components/BlockPage'
 
 // 使用ThemedButton的中间组件
 function Toolbar(props) {
@@ -45,27 +45,23 @@ export default class ContextPage extends Component {
         const { staticContext, ...rest } = this.props // staticContext 解决React does not recognize the `staticContext` prop on a DOM element. If you intentionally want it to appear in the DOM as a custom attribute, spell it as lowercase `staticcontext` instead. 
         return (
             <Layout pageTitle='ContextPage' {...this.props}>
-                <div className='page'>
-                    <section className="block">
-                        <h3>context使用</h3>
-                        <ThemeContext.Provider value={this.state.theme}>
-                            <Toolbar {...rest} changeTheme={this.toggleTheme} />
-                        </ThemeContext.Provider>
-                        <Provider value={this.state.theme}>
-                            <ThemedButtonFun {...rest} onClick={this.toggleTheme}>修改主题</ThemedButtonFun>
-                        </Provider>
-                        <Provider value={this.state.theme}>
-                            <ThemedButtonClass2 {...rest} onClick={this.toggleTheme}>修改主题</ThemedButtonClass2>
-                        </Provider>
-                        <p>以上这些例子是不同姿势使用context</p>
-                    </section>
-                    <section className="block">
-                        <h3>在嵌套组件中更新context</h3>
-                        <ThemeContext2.Provider value={this.state.other}>
+                <BlockPage pageSubTitle='context使用'>
+                    <ThemeContext.Provider value={this.state.theme}>
+                        <Toolbar {...rest} changeTheme={this.toggleTheme} />
+                    </ThemeContext.Provider>
+                    <Provider value={this.state.theme}>
+                        <ThemedButtonFun {...rest} onClick={this.toggleTheme}>修改主题</ThemedButtonFun>
+                    </Provider>
+                    <Provider value={this.state.theme}>
+                        <ThemedButtonClass2 {...rest} onClick={this.toggleTheme}>修改主题</ThemedButtonClass2>
+                    </Provider>
+                    <p>以上这些例子是不同姿势使用context</p>
+                </BlockPage>
+                <BlockPage pageSubTitle='在嵌套组件中更新context'>
+                <ThemeContext2.Provider value={this.state.other}>
                             <ThemedButtonFun2></ThemedButtonFun2>
                         </ThemeContext2.Provider>
-                    </section>
-                </div>
+                </BlockPage>
             </Layout>
         )
     }

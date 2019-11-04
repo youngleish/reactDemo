@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import TabBar from '../components/TabBar'
 import NavBar from '../components/NavBar'
 
-export default class Layout extends Component {
+export default class LayoutCmp extends Component {
     componentDidMount() {
         console.log('layout', this.props);
         const { title = '练习' } = this.props
@@ -14,11 +14,11 @@ export default class Layout extends Component {
         return (
             <div>
                 {showNavBar && <NavBar {...this.props}/>}
-                {children}
+                <div className='page homePage'>
+                    {children}
+                </div>
                 {showTabBar && <TabBar />}
             </div>
         )
     }
 }
-
-

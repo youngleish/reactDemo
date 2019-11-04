@@ -36,17 +36,15 @@ export default class HocPage extends Component {
         const Foo3 = this.foo3(this.foo(Child2))
         return (
             <Layout pageTitle='HocPage' {...this.props}>
-                <div className='page'>
-                    <BlockPage>
-                        <Foo/> 
-                    </BlockPage>
-                    <BlockPage pageSubTitle='链式调用'>
-                        <Foo2/> 
-                    </BlockPage>
-                    <BlockPage pageSubTitle='操作props'>
-                        <Foo3/> 
-                    </BlockPage>
-                </div> 
+                <BlockPage>
+                    <Foo/> 
+                </BlockPage>
+                <BlockPage pageSubTitle='链式调用'>
+                    <Foo2/> 
+                </BlockPage>
+                <BlockPage pageSubTitle='操作props'>
+                    <Foo3/> 
+                </BlockPage>
             </Layout>
         )
     }
