@@ -4,18 +4,21 @@ import NavBar from '../components/NavBar'
 
 export default class Layout extends Component {
     componentDidMount() {
+        console.log('layout', this.props);
         const { title = '练习' } = this.props
         document.title = title
     }
     render() {
         console.log('layout', this.props)
-        const { children, showTabBar = true, showNavBar = true, pageTitle } = this.props
+        const { children, showTabBar = true, showNavBar = true } = this.props
         return (
             <div>
-                {showNavBar && <NavBar pageTitle={pageTitle} {...this.props}/>}
+                {showNavBar && <NavBar {...this.props}/>}
                 {children}
                 {showTabBar && <TabBar />}
             </div>
         )
     }
 }
+
+

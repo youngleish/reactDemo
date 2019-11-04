@@ -42,12 +42,12 @@ export default class NavBar extends Component {
         this.props.history.push('/home')
     }
     render() {
-        const { pageTitle = 'HomePage' } = this.props
+        const { pageTitle = 'HomePage' , showHomeIcon = 'true'} = this.props
         const { store, loadingFlag } = this.state
         return (
             <div className='navBar'>
                 <div className='left'>
-                    <span className='homeIcon' onClick={this.goJsxPage}></span>
+                    { showHomeIcon && <span className='homeIcon' onClick={this.goJsxPage}></span> }
                     <span className='desc'>{pageTitle}</span>
                 </div>
                 <ActivityIndicator toast text="Loading..." animating={loadingFlag} />

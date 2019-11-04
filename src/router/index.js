@@ -35,5 +35,15 @@ export default [
         name: 'compositionPage',
         path: '/compositionPage',
         component: ACL(() => import('../pages/CompositionPage'))
+    },
+    {
+        name: 'hocPage',
+        path: '/hocPage',
+        component: ACL(() => import('../pages/HocPage'))
+    },
+    {
+        name: 'refPage',
+        path: '/refPage',
+        component: ACL(() => import('../pages/RefPage')) 
     }
 ]
