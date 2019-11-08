@@ -1,3 +1,4 @@
+// 组合组件
 import React, { Component } from 'react'
 import TabBar from '../components/TabBar'
 import NavBar from '../components/NavBar'

@@ -1,3 +1,4 @@
+// 组合组件
 import React from 'react'
 
 export default function BlockPage(props) {
