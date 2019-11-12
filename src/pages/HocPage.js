@@ -43,6 +43,8 @@ export default class HocPage extends Component {
             componentDidMount = () => new Draggable(this.elementRef.current, { onDrag: this.onDrag })
             onDrag = (e) => {
                 const { x, y } = e.target.getBoundingClientRect()
+                console.log('{z,hll', y);
+                
                 this.setState({
                     x: Math.floor(x),
                     y: Math.floor(y)

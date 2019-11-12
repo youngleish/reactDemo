@@ -45,5 +45,10 @@ export default [
         name: 'refPage',
         path: '/refPage',
         component: ACL(() => import('../pages/RefPage')) 
+    },
+    {
+        name: 'renderProp',
+        path: '/renderProp',
+        component: ACL(() => import('../pages/RenderPropPage')) 
     }
 ]
