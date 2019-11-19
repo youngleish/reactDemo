@@ -50,5 +50,10 @@ export default [
         name: 'renderProp',
         path: '/renderProp',
         component: ACL(() => import('../pages/RenderPropPage')) 
+    },
+    {
+        name: 'hookPage',
+        path: '/hookPage',
+        component: ACL(() => import('../pages/HookPage')) 
     }
 ]
