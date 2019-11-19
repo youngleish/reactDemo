@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import Layout from '../components/Layout'
 import BlockPage from '../components/BlockPage'
 import { AddFruit, FruitList } from '../components/Fruit'
@@ -37,18 +37,23 @@ function BaseStateHookUse() {
 }
 
 function Fruit() {
-    const [fruitList, setFruitList] = useState(['苹果', '香蕉'])
-    const addFruit = (name) => {
-        if (!name) {
-            Toast.info('请填写水果名称', 1);
+    const [fruitList, setFruitList] = useState(['苹果', '橙子'])
+    const [fruitName, setFruitName] = useState('')
+    const inputRef = useRef(null)
+    const addFruit = (item) => {
+        if (!item) {
+            Toast.info('请输入水果名称', 2)
             return false
         }
-        setFruitList([...fruitList, name]) 
+        setFruitList([...fruitList, item])
+        setFruitName("")
+        inputRef.current.focus()
     }
     return (
         <>
-            <AddFruit addFruit={addFruit}></AddFruit>
-            <FruitList fruitList={fruitList} setFruitList={setFruitList}></FruitList>
+            <strong style={{backgroundColor: 'pink'}}>这里注意代码中添加水果的方式</strong>
+            <AddFruit addFruit={addFruit} fruitName={fruitName} setFruitName={setFruitName} inputRef={inputRef}/>
+            <FruitList fruitList={fruitList} setFruitList={setFruitList} />
         </>
     )
 }
