@@ -1,18 +1,24 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import Layout from '../components/Layout'
 import BlockPage from '../components/BlockPage'
 import { AddFruit, FruitList } from '../components/Fruit'
 import { Toast } from 'antd-mobile'
 
-export default function HookPage() {
+export default function HookPage(props) {
     return (
         <div>
-            <Layout pageTitle='HookPage'>
+            <Layout pageTitle='HookPage' {...props}>
                 <BlockPage pageSubTitle='State Hook 使用'>
-                    <BaseStateHookUse/>
+                    <BaseStateHookUse />
                 </BlockPage>
                 <BlockPage pageSubTitle='声明多个state变量'>
-                    <Fruit/>
+                    <Fruit />
+                </BlockPage>
+                <BlockPage pageSubTitle='Effect Hook 使用'>
+                    <BaseEffectHookUse />
+                </BlockPage>
+                <BlockPage pageSubTitle='使用多个effect'>
+                    <MoreUseEffect />
                 </BlockPage>
             </Layout>
         </div>
@@ -26,7 +32,7 @@ function BaseStateHookUse() {
         setDate(new Date())
     }
     const changeName = () => {
-        setName('newName') 
+        setName('newName')
     }
     return (
         <>
@@ -51,9 +57,51 @@ function Fruit() {
     }
     return (
         <>
-            <strong style={{backgroundColor: 'pink'}}>这里注意代码中添加水果的方式</strong>
-            <AddFruit addFruit={addFruit} fruitName={fruitName} setFruitName={setFruitName} inputRef={inputRef}/>
+            <strong style={{ backgroundColor: 'pink' }}>这里注意代码中添加水果的方式</strong>
+            <AddFruit addFruit={addFruit} fruitName={fruitName} setFruitName={setFruitName} inputRef={inputRef} />
             <FruitList fruitList={fruitList} setFruitList={setFruitList} />
+        </>
+    )
+}
+
+function BaseEffectHookUse() {
+    const [date, setDate] = useState(new Date())
+    // 相当于componentDidMount 和 componentDidUpdate
+    useEffect(() => {
+        // console.log('effect')
+        const timer = setInterval(() => {
+            document.title = date.toLocaleTimeString()
+            setDate(new Date())
+        }, 1000)
+        return () => clearInterval(timer)
+    }, [date])
+    return (
+        <div>
+            <p>{date.toLocaleTimeString()}</p>
+        </div>
+    )
+}
+
+function MoreUseEffect() {
+    const [count, setCount] = useState(0)
+    const [date, setDate] = useState(new Date())
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setDate(new Date())
+        }, 1000)
+        return () => clearInterval(timer)
+    }, [date])
+    useEffect(() => {
+        document.title = count
+    }, [count])
+    return (
+        <>
+            <div>
+                <span>点击次数 {count}</span><button onClick={() => setCount(count + 1)} type='button' className='btn'>点击增加次数</button>
+            </div>
+            <div>
+                <span>当前时间 {date.toLocaleTimeString()}</span>
+            </div>
         </>
     )
 }
