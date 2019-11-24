@@ -1,10 +1,10 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
-import React, { useState, useRef, useEffect, useCallback } from 'react'
+import React, { useState, useRef, useEffect, useContext, useReducer } from 'react'
 import Layout from '../components/Layout'
 import BlockPage from '../components/BlockPage'
 import { AddFruit, FruitList } from '../components/Fruit'
-import { Toast } from 'antd-mobile'
 import { Draggable } from 'gsap/all'
+import { ActivityIndicator, Toast } from 'antd-mobile'
 
 export default function HookPage(props) {
     return (
@@ -16,6 +16,9 @@ export default function HookPage(props) {
                 <BlockPage pageSubTitle='声明多个state变量'>
                     <Fruit />
                 </BlockPage>
+                <BlockPage pageSubTitle='函数式更新'>
+                    <FunctionUpd initialCount={18}/>
+                </BlockPage> 
                 <BlockPage pageSubTitle='Effect Hook 使用'>
                     <BaseEffectHookUse />
                 </BlockPage>
@@ -24,9 +27,25 @@ export default function HookPage(props) {
                 </BlockPage>
                 <BlockPage pageSubTitle='自定义Hook'>
                     <div className='draggableWrapper'>
-                        <Mouse/>
-                        <Cat/>
+                        <Animal>
+                            <span role='img'>🐭</span>
+                        </Animal>
+                        <Animal>
+                            <span role='img'>🐱</span>
+                        </Animal>
                     </div>
+                </BlockPage>
+                <BlockPage pageSubTitle='useContext使用'>
+                    <BaseContextUse/>
+                </BlockPage>
+                <BlockPage pageSubTitle='useReducer使用'>
+                    <BaseReducerUse/>
+                </BlockPage>
+                <BlockPage pageSubTitle='useReducer惰性初始化'>
+                    <LazyInitialization/>
+                </BlockPage>
+                <BlockPage pageSubTitle='复杂state中useReducer使用'>
+                    <UseReducerLogin/>
                 </BlockPage>
             </Layout>
         </div>
@@ -68,6 +87,18 @@ function Fruit() {
             <strong style={{ backgroundColor: 'pink' }}>这里注意代码中添加水果的方式</strong>
             <AddFruit addFruit={addFruit} fruitName={fruitName} setFruitName={setFruitName} inputRef={inputRef} />
             <FruitList fruitList={fruitList} setFruitList={setFruitList} />
+        </>
+    )
+}
+// 函数式更新
+function FunctionUpd ({initialCount}) {
+    const [count, setCount] = useState(initialCount)
+    return(
+        <>
+            <span>count值{count}</span>
+            <button className='btn' type='button' onClick={() => setCount(initialCount)}>Reset</button>
+            <button className='btn' type='button' onClick={() => setCount(preCount => setCount(preCount + 1))}>+</button>
+            <button className='btn' type='button' onClick={() => setCount(preCount => setCount(preCount - 1))}>-</button>
         </>
     )
 }
@@ -131,12 +162,13 @@ function useDrag() {
         x, y, dragRef 
     }
 }
-function Mouse() {
+// 组合组件应用
+function Animal(props) {
     const { x, y, dragRef } = useDrag()
     return (
         <span className='draggableInner' ref={dragRef}>
             <div className='picWrapper'>
-                <span role='img'>🐭</span>
+                {props.children}
                 {
                     x && y && (
                         <span className='picPosition'>{`(${x},${y})`}</span>
@@ -146,18 +178,139 @@ function Mouse() {
         </span>
     )
 }
-function Cat() {
-    const { x, y, dragRef } = useDrag()
+
+// useContext使用
+const theme = {
+    light: {
+        bgc: '#fff',
+        fgc: '000'
+    },
+    dark: {
+        bgc: '#000',
+        fgc: '#fff'
+    }
+}
+const ThemeContext = React.createContext(theme.light)
+function BaseContextUse() {
     return (
-        <span className='draggableInner' ref={dragRef}>
-            <div className='picWrapper'>
-                <span role='img'>🐱</span>
-                {
-                    x && y && (
-                        <span className='picPosition'>{`(${x},${y})`}</span>
-                    )
-                }
-            </div>   
-        </span>
+        <ThemeContext.Provider value={theme.dark}>
+            <MiddleCmp/>
+        </ThemeContext.Provider>
     )
+}
+function MiddleCmp() {
+    return(
+        <div>
+            <ThemeButton/>
+        </div>
+    )
+}
+function ThemeButton() {
+    const theme = useContext(ThemeContext)
+    return (
+        <button className='btn' type='button' style={{backgroundColor: theme.bgc, color: theme.fgc}}>我的样式来自useContext</button>
+    )
+}
+
+// useReducer的基本使用
+function BaseReducerUse() {
+    const initialState = {count: 0}
+    const countReducer = (state, action) => {
+        switch(action.type) {
+            case 'increment':
+                return {count: state.count + 1}
+            case 'decrement':
+                return {count: state.count -1 }
+            default:
+                throw new Error()
+        }
+    }
+    const [state, dispatch] = useReducer(countReducer, initialState)
+    return (
+        <>
+            <span>count值: {state.count}</span>
+            <button className='btn' onClick={() => dispatch({type: 'increment'})}>+</button>
+            <button className='btn' onClick={() => dispatch({type: 'decrement'})}>-</button>
+        </>
+    )
+}
+// useReducer 惰性初始化
+function LazyInitialization() {
+    const initialCount = 12
+    const init = (initialCount) => {
+        return {count: initialCount}
+    }
+    const countReducer = (state, action) => {
+        switch(action.type) {
+            case "increment":
+                return {count: state.count + 1}
+            case "decrement":
+                return {count: state.count - 1}
+            case "reset":
+                return init(action.payload)
+            default:
+                throw new Error()
+        }
+    }
+    const [state, dispatch] = useReducer(countReducer, initialCount, init)
+    return (
+        <>
+            <span>count值: {state.count}</span>
+            <button className='btn' onClick={() => dispatch({type: 'increment'})}>+</button>
+            <button className='btn' onClick={() => dispatch({type: 'decrement'})}>-</button>  
+            <button className='btn' onClick={() => dispatch({type: 'reset', payload: initialCount})}>Reset</button>  
+        </>
+    )
+}
+// UseReducerLogin 
+const initState = {
+    name: '',
+    pwd: '',
+    isLoading: false,
+    success: '',
+    error: '',
+    isLoggedIn: false
+}
+function UseReducerLogin() {
+    const [state, dispatch] = useReducer(loginReducer, initState)
+    const login = () => {
+        if (!state.name) {
+            Toast.info('请输入用户名', 1) 
+            return
+        }
+        if (!state.pwd) {
+            Toast.info('请输入密码', 1) 
+            return
+        }
+        dispatch({type: 'login'})
+        console.log('success', state.isLoading)
+        setTimeout(() => {
+            dispatch({type: 'success', payload: {success: '登录成功'}})
+            Toast.info(state.success, 1)  
+        }, 1000)
+    }
+    return (
+        <div>
+            <ActivityIndicator toast text="Loading..." animating={state.isLoading} />
+            <input type="text" placeholder='请输入用户名' value={state.name} onChange={e => dispatch({type: 'nameChange', payload: {name: e.target.value}})}/>
+            <input type="text" placeholder='请输入用密码' value={state.pwd} onChange={e => dispatch({type: 'pwdChange',payload: {pwd: e.target.value}})}/>
+            <button className="btn" type='button' onClick={login}>登录</button>
+        </div>
+    )
+}
+function loginReducer(state, action) {
+    switch(action.type) {
+        case 'nameChange':
+            return {...state, name: action.payload.name}
+        case 'pwdChange':
+            return {...state, pwd: action.payload.pwd}
+        case 'login':
+            return {...state, isLoading: true}
+        case 'success':
+            return {...state, isLoading: false, isLoggedIn: true, success: action.payload.success}
+        case 'error': 
+            return {...state, isLoading: false, error: action.payload.error, name: '', pwd: ''}
+        default:
+            return state
+    }
 }

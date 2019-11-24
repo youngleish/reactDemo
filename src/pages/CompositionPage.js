@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import AnonymitySlot from '../components/AnonymitySlot'
-import NamedSlot from '../components/NamedSlot'
-import MixinSlot from '../components/MixinSlot'
+import AnonymitySlot from '../components/SlotAnonymity'
+import NamedSlot from '../components/SlotNamed'
+import MixinSlot from '../components/SlotMixin'
 import Layout from '../components/Layout'
 
 export default class CompositionPage extends Component {
