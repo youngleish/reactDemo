@@ -47,6 +47,9 @@ export default function HookPage(props) {
                 <BlockPage pageSubTitle='复杂state中useReducer使用'>
                     <UseReducerLogin/>
                 </BlockPage>
+                <BlockPage pageSubTitle='useReducer和useContext结合使用'>
+                    <UseContextAndReducerPage/>
+                </BlockPage>
             </Layout>
         </div>
     )
@@ -263,14 +266,7 @@ function LazyInitialization() {
     )
 }
 // UseReducerLogin 
-const initState = {
-    name: '',
-    pwd: '',
-    isLoading: false,
-    success: '',
-    error: '',
-    isLoggedIn: false
-}
+
 function UseReducerLogin() {
     const [state, dispatch] = useReducer(loginReducer, initState)
     const login = () => {
@@ -283,7 +279,6 @@ function UseReducerLogin() {
             return
         }
         dispatch({type: 'login'})
-        console.log('success', state.isLoading)
         setTimeout(() => {
             dispatch({type: 'success', payload: {success: '登录成功'}})
             Toast.info(state.success, 1)  
@@ -298,8 +293,20 @@ function UseReducerLogin() {
         </div>
     )
 }
-function loginReducer(state, action) {
+
+// useReducer和useContext
+const initState = {
+    name: '',
+    pwd: '',
+    isLoading: false,
+    success: '',
+    error: '',
+    isLoggedIn: false
+}
+function loginReducer(state = initState, action) {
     switch(action.type) {
+        case 'init': 
+            return {...state, name: action.payload.name, pwd: action.payload.pwd}
         case 'nameChange':
             return {...state, name: action.payload.name}
         case 'pwdChange':
@@ -313,4 +320,45 @@ function loginReducer(state, action) {
         default:
             return state
     }
+}
+const LoginContext = React.createContext()
+function UseContextAndReducerPage() {
+    const [state, dispatch] = useReducer(loginReducer, initState)
+    useEffect(() => {
+        dispatch({type: 'init', payload: {name: 'Jam', pwd: '123'}}) 
+    }, [])
+    return (
+        <>
+            <LoginContext.Provider value={{state, dispatch}}>
+                <LoginBtn></LoginBtn>
+            </LoginContext.Provider> 
+        </>
+    )
+}
+function LoginBtn() {
+    const {state, dispatch} = useContext(LoginContext)
+    const login = () => {
+        if (!state.name) {
+            Toast.info('请输入用户名', 1) 
+            return
+        }
+        if (!state.pwd) {
+            Toast.info('请输入密码', 1) 
+            return
+        }
+        dispatch({type: 'login'})
+        setTimeout(() => {
+            dispatch({type: 'success', payload: {success: '登录成功'}})
+            console.log('success', state.success)
+            Toast.info(state.success, 1)  
+        }, 1000)
+    }
+    return (
+        <>
+            <ActivityIndicator toast text="Loading..." animating={state.isLoading} />
+            <input type="text" placeholder='请输入用户名' value={state.name} onChange={e => dispatch({type: 'nameChange', payload: {name: e.target.value}})}/>
+            <input type="text" placeholder='请输入用密码' value={state.pwd} onChange={e => dispatch({type: 'pwdChange',payload: {pwd: e.target.value}})}/>
+            <button className="btn" type='button' onClick={login}>登录</button> 
+        </>
+    )
 }
